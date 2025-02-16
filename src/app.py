@@ -10,7 +10,6 @@ import time
 MODELNAME = os.getenv(
     "MODELNAME", "hf-hub:laion/CLIP-ViT-B-32-laion2B-s34B-b79K")
 DEVICE = os.getenv("DEVICE", "cpu")
-HALF = os.getenv("HALF", "False")
 TIMEOUT = os.getenv("TIMEOUT", "300")
 
 app = Flask(__name__)
@@ -55,9 +54,6 @@ class Clip:
             if devcount > 0 and DEVICE != "cpu":
                 device = DEVICE
                 modelNode['model'].to(device)
-                # if HALF=="True" or HALF=="true" or HALF=="1" or HALF=="yes":
-                #    modelNode['model'].half()
-                # print(torch.cuda.get_device_properties(0).major, torch.cuda.get_device_properties(0).minor)
                 freemem = torch.cuda.mem_get_info()[0]
                 devicename = torch.cuda.get_device_name(device)
                 print(

@@ -8,10 +8,9 @@ services:
     ports:
       - "11435:11435"
     environment:
-      - HALF=False
-      - MODELNAME=hf-hub:apple/MobileCLIP-B-OpenCLIP
+      - MODELNAME=hf-hub:apple/MobileCLIP-B-OpenCLIP #default model
       - DEVICE=cuda
-      - TIMEOUT=300
+      - TIMEOUT=300 #unload the models after 300s if they are not used
     volumes:
       - "cache:/root/.cache/huggingface/hub/"
     build:
