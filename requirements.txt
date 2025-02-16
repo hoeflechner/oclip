@@ -1,0 +1,12 @@
+numpy
+flask
+flask-cors
+#Pillow-SIMD
+#Pillow
+torch
+torchvision
+dill
+waitress
+nob
+pytest
+open_clip_torch
