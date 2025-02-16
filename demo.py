@@ -1,7 +1,7 @@
 import numpy as np
 import requests
 import json
-from PIL import Image
+import asyncio
 
 image="bus.jpg"
 file= open(image, 'rb')
@@ -31,7 +31,7 @@ print(f"embeddings: {np.asarray(embeddings).shape}")
 
 response = requests.post(
                     "http://localhost:11435/api/embed",
-                    json = {'model': "hf-hub:apple/MobileCLIP-B-OpenCLIP", "input": ["line one", "line two"]}
+                    json = {'model': "hf-hub:laion/CLIP-ViT-B-32-laion2B-s34B-b79K", "input": ["line one", "line two"]}
 )
 print(response)
 embeddings=response.json()['embeddings']

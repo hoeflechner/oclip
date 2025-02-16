@@ -12,6 +12,8 @@ services:
       - MODELNAME=hf-hub:apple/MobileCLIP-B-OpenCLIP
       - DEVICE=cuda
       - TIMEOUT=300
+    volumes:
+      - "cache:/root/.cache/huggingface/hub/"
     build:
       context: .
       dockerfile: ./Dockerfile
@@ -22,3 +24,6 @@ services:
             - driver: nvidia
               count: 1
               capabilities: [gpu]
+
+volumes:
+  cache: {}
