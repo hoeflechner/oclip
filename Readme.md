@@ -23,6 +23,10 @@ pip install Pillow
 python src/app.py
 ```
 
+### Docker
+
+Use the [docker-compose.yml](docker-compose.yml) file in the repository as a starting point.
+
 ### GPU 
 
 to utilize a nvidia-gpu start it with:
@@ -47,9 +51,7 @@ unloaded from NVIDIA GeForce RTX 4060 Ti, 11966 MB left
 ```
 The process then idles at 260 MB Vram usage
 
-### Docker
 
-Use the [docker-compose.yml](docker-compose.yml) file in the repository as a starting point.
 
 ## Usage
 
