@@ -1,6 +1,6 @@
 # oclip
 
-is a small service that provides the embed endpoint that [ollama](https://ollama.com/blog/embedding-models) does but it will use the [open_clip models](https://huggingface.co/models?library=open_clip) and download these automatically.
+is a small service that provides the same embed endpoint that [ollama](https://ollama.com/blog/embedding-models) does but it will use the [open_clip models](https://huggingface.co/models?library=open_clip) and download these automatically.
  It also work for images - a feature that is currently missing in [ollama](https://github.com/ollama/ollama/issues/5304)
 
  It is intended to be used until this functionality is available in ollama...
