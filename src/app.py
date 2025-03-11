@@ -7,13 +7,13 @@ import open_clip
 import threading
 import time
 
+PORT = int(os.getenv("PORT", "11435"))
 MODELNAME = os.getenv(
     "MODELNAME", "hf-hub:laion/CLIP-ViT-B-32-laion2B-s34B-b79K")
 DEVICE = os.getenv("DEVICE", "cpu")
 TIMEOUT = os.getenv("TIMEOUT", "300")
 
 app = Flask(__name__)
-
 
 class Clip:
     device = 'cpu'
@@ -112,29 +112,31 @@ class Clip:
 
 @app.route("/api/embed", methods=['POST'])
 def embed():
+    startTime = time.time()
     if 1 < len(request.files):
         data = json.load(request.files['data'])
         modelname = data[0]['model']
         clip = Clip(modelname)
         file = request.files['image']
         rawimage = Image.open(file)
+        print(f"generating image embeddings {rawimage.filename}")
         image = clip.getPreprocess()(rawimage).unsqueeze(0).to(clip.getDevice())
-
         with torch.no_grad(), torch.autocast(device_type=clip.getDevice()):
             embeddings = clip.getModel().encode_image(image)
             embeddings /= embeddings.norm(dim=-1, keepdim=True)
-
         file.close()
     else:
         data = request.json
         modelname = data['model']
         input = data['input']
         clip = Clip(modelname)
+        print(f"generating embeddings for {input}")
         text = clip.getTokenizer()(input).to(clip.getDevice())
         with torch.no_grad(), torch.autocast(device_type=clip.getDevice()):
             embeddings = clip.getModel().encode_text(text)
             embeddings /= embeddings.norm(dim=-1, keepdim=True)
-
+    runTime = (time.time()-startTime)*1000
+    print(f"embedding done in {runTime} ms")
     ret = {"embeddings": embeddings.cpu().to(torch.float32).numpy().tolist()}
     return ret
 
@@ -142,4 +144,4 @@ def embed():
 if __name__ == "__main__":
     from waitress import serve
 
-    serve(app, host="0.0.0.0", port=11435)
+    serve(app, host="0.0.0.0", port=PORT)
